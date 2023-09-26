@@ -31,6 +31,18 @@ archives:
       - goos: windows
         format: zip
 
+brews:
+  - name: pomo-cli
+    description: Pomodoro Timer CLI tool
+    homepage: https://github.com/codeanish/pomo-cli
+    tap:
+      owner: codeanish
+      name: homebrew-pomo-cli
+    commit_author:
+      name: codeanish
+      email: anish@codeanish.com
+    folder: Formula
+
 changelog:
   sort: asc
   filters:
