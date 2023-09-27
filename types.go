@@ -8,6 +8,7 @@ type model struct {
 	Progress float64
 	Quitting bool
 	Options  []options
+	IsCustom bool
 }
 
 type options struct {

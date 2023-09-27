@@ -12,12 +12,11 @@ import (
 func main() {
 	opts := []options{
 		{"Focus", 25},
-		{"Focus", 15},
 		{"Break", 5},
 		{"Break", 15},
 	}
-	initialModel := model{0, false, 1000, 0, 0, false, opts}
-	p := tea.NewProgram(initialModel)
+	initialModel := model{0, false, 1000, 0, 0, false, opts, false}
+	p := tea.NewProgram(initialModel, tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
 		fmt.Println("could not start program:", err)
 	}
@@ -89,6 +88,28 @@ func updateChoices(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 			if m.Choice < 0 {
 				m.Choice = 0
 			}
+		case "1", "2", "3", "4", "5", "6", "7", "8", "9", "0":
+			if m.Options[len(m.Options)-1].Type == "Custom" {
+				m.Options[len(m.Options)-1].Time = m.Options[len(m.Options)-1].Time*10 + int(msg.String()[0]-48)
+				m.Choice = len(m.Options) - 1
+				m.IsCustom = true
+				break
+			}
+
+			m.Options = append(m.Options, options{"Custom", int(msg.String()[0] - 48)})
+			m.Choice = len(m.Options) - 1
+			m.IsCustom = true
+
+		case "backspace":
+			if m.IsCustom {
+				m.Options[len(m.Options)-1].Time = m.Options[len(m.Options)-1].Time / 10
+				if m.Options[len(m.Options)-1].Time == 0 {
+					m.Options = m.Options[:len(m.Options)-1]
+					m.Choice = len(m.Options) - 1
+					m.IsCustom = false
+				}
+			}
+
 		case "enter":
 			m.Chosen = true
 			m.Ticks = m.Options[m.Choice].Time * 60
@@ -131,14 +152,14 @@ func optionsView(m model) string {
 	for i := 0; i < len(m.Options); i++ {
 		tpl += fmt.Sprintf("%s\n", checkbox(fmt.Sprintf("%s Time - %d mins", m.Options[i].Type, m.Options[i].Time), c == i))
 	}
-	tpl += "\n" + subtle("j/k, up/down: select") + dot + subtle("enter: choose") + dot + subtle("q, esc: quit")
+	tpl += "\n" + subtle("j/k, up/down: select") + dot + subtle("enter: choose") + dot + subtle("digits: custom") + dot + subtle("q, esc: quit")
 	return tpl
 }
 
 func countdownView(m model) string {
 	var msg string
 
-	msg = fmt.Sprintf("Focus time %s mins\n", keyword(strconv.Itoa(m.Options[m.Choice].Time)))
+	msg = fmt.Sprintf("%s time %s mins\n", m.Options[m.Choice].Type, keyword(strconv.Itoa(m.Options[m.Choice].Time)))
 
 	var label string
 	if m.Ticks > 60 {
