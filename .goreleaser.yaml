@@ -34,7 +34,7 @@ archives:
 brews:
   - name: pomo-cli
     description: Pomodoro Timer CLI tool
-    homepage: https://github.com/codeanish/homebrew-pomo-cli
+    homepage: https://github.com/codeanish/pomo-cli
     tap:
       owner: codeanish
       name: homebrew-pomo-cli

@@ -80,8 +80,8 @@ func updateChoices(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "j", "down":
 			m.Choice++
-			if m.Choice > 3 {
-				m.Choice = 3
+			if m.Choice > len(m.Options)-1 {
+				m.Choice = len(m.Options) - 1
 			}
 		case "k", "up":
 			m.Choice--
