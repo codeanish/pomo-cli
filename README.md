@@ -2,6 +2,10 @@
 
 A Pomodoro Timer CLI tool. This tool can help you stay focussed for periods of time and improve flow during tasks. It's based on the [Pomodoro Technique](https://en.wikipedia.org/wiki/Pomodoro_Technique), and while there are many alternative apps out there in the browser or as fully fledged desktop apps, for those of us who spend much of thier days in the terminal, I feel as though this is an extra distraction and interrupts flow by forcing you out of context. This tool has been developed as a CLI tool to address these issues.
 
+## Demo
+
+![til](./demo/demo.gif)
+
 ## Installation Instructions
 
 ### MacOS through brew
